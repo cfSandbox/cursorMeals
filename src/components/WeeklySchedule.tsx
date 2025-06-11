@@ -6,21 +6,32 @@ import { DayCard } from './DayCard';
 import { LoadingSpinner } from './LoadingSpinner';
 import { formatDateDisplay } from '@/lib/utils';
 
-export function WeeklySchedule() {
+interface WeeklyScheduleProps {
+  weekStartDate?: Date;
+}
+
+export function WeeklySchedule({ weekStartDate }: WeeklyScheduleProps) {
   const [weekSchedule, setWeekSchedule] = useState<WeekSchedule | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchWeeklySchedule();
-  }, []);
+  }, [weekStartDate]); // Re-fetch when weekStartDate changes
 
   const fetchWeeklySchedule = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const response = await fetch('/api/meals');
+      // Build the API URL with date parameter if weekStartDate is provided
+      let url = '/api/meals';
+      if (weekStartDate) {
+        const dateString = weekStartDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        url += `?date=${dateString}`;
+      }
+      
+      const response = await fetch(url);
       const data: ApiResponse<WeekSchedule> = await response.json();
       
       if (data.success && data.data) {
