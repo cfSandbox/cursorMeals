@@ -45,4 +45,16 @@ export function isToday(date: Date): boolean {
 
 export function cn(...classes: string[]): string {
   return classes.filter(Boolean).join(' ');
+}
+
+export function normalizeDateToMonday(date: Date | string): Date {
+  const targetDate = typeof date === 'string' ? new Date(date) : new Date(date);
+  const dayOfWeek = targetDate.getDay();
+  const diff = targetDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust for Sunday
+  
+  const monday = new Date(targetDate);
+  monday.setDate(diff);
+  monday.setHours(0, 0, 0, 0); // Reset time to start of day
+  
+  return monday;
 } 

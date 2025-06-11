@@ -59,8 +59,31 @@ function generateMeal(type: 'breakfast' | 'lunch', day: string): Meal {
   };
 }
 
-export function generateWeeklyMockData(): WeekSchedule {
-  const { start, end, dates } = getCurrentWeekDates();
+function getWeekDatesFromMonday(mondayDate: Date): { start: Date; end: Date; dates: Date[] } {
+  const monday = new Date(mondayDate);
+  const dates: Date[] = [];
+  
+  for (let i = 0; i < 5; i++) {
+    const date = new Date(monday);
+    date.setDate(monday.getDate() + i);
+    dates.push(date);
+  }
+  
+  const friday = dates[4];
+  
+  return {
+    start: monday,
+    end: friday,
+    dates
+  };
+}
+
+export function generateWeeklyMockData(mondayDate?: Date): WeekSchedule {
+  const weekData = mondayDate ? 
+    getWeekDatesFromMonday(mondayDate) : 
+    getCurrentWeekDates();
+  
+  const { start, end, dates } = weekData;
   
   const days: DaySchedule[] = dates.map(date => {
     const dayName = getDayName(date);
