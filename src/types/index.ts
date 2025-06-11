@@ -2,8 +2,6 @@ export interface Meal {
   id: string;
   vendorName: string;
   description: string;
-  type: 'breakfast' | 'lunch';
-  price?: number;
 }
 
 export interface DaySchedule {

@@ -50,11 +50,7 @@ function generateMeal(type: 'breakfast' | 'lunch', dateStr: string): Meal {
   return {
     id: `${dateStr}-${type}-${Math.random().toString(36).substr(2, 9)}`,
     vendorName: getRandomItem(vendors),
-    description: getRandomItem(options),
-    type,
-    price: type === 'breakfast' ? 
-      Math.floor(Math.random() * 8) + 7 : // $7-14 for breakfast
-      Math.floor(Math.random() * 12) + 10  // $10-21 for lunch
+    description: getRandomItem(options)
   };
 }
 
