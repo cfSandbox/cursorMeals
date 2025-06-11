@@ -1,27 +1,71 @@
-import { WeeklySchedule } from '@/components/WeeklySchedule';
+import Link from 'next/link';
 import { getCurrentWeekDates } from '@/lib/utils';
 
 export default function Home() {
   const { start } = getCurrentWeekDates();
-  const weekStartDate = start.toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric'
-  });
+  const currentWeekParam = start.toISOString().split('T')[0]; // Format as YYYY-MM-DD
 
   return (
-    <div className="space-y-8">
-      <div className="text-center bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/20">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Week of {weekStartDate}
+    <div className="min-h-screen flex flex-col items-center justify-center space-y-12 px-4">
+      {/* Hero Section */}
+      <div className="text-center bg-white/95 backdrop-blur-sm rounded-3xl p-12 shadow-2xl border border-white/30 max-w-4xl">
+        <h1 className="text-6xl font-bold text-gray-900 mb-6">
+          🍽️ Company Meals
         </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-          Discover delicious breakfast and lunch options from our partner vendors. 
-          Fresh meals delivered daily to keep your team energized and satisfied.
+        <p className="text-2xl text-gray-700 mb-8 leading-relaxed">
+          Streamline your office dining experience with our comprehensive meal scheduling platform
         </p>
+        <p className="text-lg text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
+          Discover delicious breakfast and lunch options from our partner vendors. 
+          Fresh meals delivered daily to keep your team energized, satisfied, and productive.
+        </p>
+        
+        {/* CTA Button */}
+        <Link
+          href={`/dashboard?week=${currentWeekParam}`}
+          className="inline-block bg-blue-600 hover:bg-blue-700 text-white text-xl font-semibold px-12 py-4 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+        >
+          View This Week&apos;s Menu
+        </Link>
       </div>
-      
-      <WeeklySchedule />
+
+      {/* Features Section */}
+      <div className="grid md:grid-cols-3 gap-8 max-w-6xl">
+        <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/20 text-center">
+          <div className="text-4xl mb-4">📅</div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Weekly Planning</h3>
+          <p className="text-gray-600">
+            View complete weekly meal schedules with breakfast and lunch options for every weekday
+          </p>
+        </div>
+        
+        <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/20 text-center">
+          <div className="text-4xl mb-4">🏪</div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Partner Vendors</h3>
+          <p className="text-gray-600">
+            Carefully selected local restaurants and caterers providing fresh, quality meals daily
+          </p>
+        </div>
+        
+        <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/20 text-center">
+          <div className="text-4xl mb-4">⚡</div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Easy Access</h3>
+          <p className="text-gray-600">
+            Quick access to meal information, helping you plan your day and stay nourished
+          </p>
+        </div>
+      </div>
+
+      {/* Quick Links */}
+      <div className="text-center">
+        <p className="text-gray-600 mb-4">Need to check a different week?</p>
+        <Link
+          href="/dashboard"
+          className="text-blue-600 hover:text-blue-700 underline text-lg font-medium"
+        >
+          Go to Dashboard
+        </Link>
+      </div>
     </div>
   );
 } 
