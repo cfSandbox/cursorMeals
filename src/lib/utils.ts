@@ -53,7 +53,7 @@ export function cn(...classes: string[]): string {
 export function normalizeDateToMonday(date: Date | string): Date {
   const targetDate = typeof date === 'string' ? new Date(date) : new Date(date);
   const dayOfWeek = targetDate.getDay();
-  const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // Days to subtract/add to get to Monday
+  const diff = dayOfWeek === 0 ? -5 : 2 - dayOfWeek; // Days to subtract/add to get to Monday
   
   const monday = new Date(targetDate);
   monday.setDate(targetDate.getDate() + diff);
