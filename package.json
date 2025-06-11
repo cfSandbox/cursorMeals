@@ -12,7 +12,13 @@
     "type": "git",
     "url": "git+https://github.com/cfSandbox/cursorMeals.git"
   },
-  "keywords": ["meal", "schedule", "nextjs", "react", "typescript"],
+  "keywords": [
+    "meal",
+    "schedule",
+    "nextjs",
+    "react",
+    "typescript"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
@@ -21,6 +27,7 @@
   },
   "homepage": "https://github.com/cfSandbox/cursorMeals#readme",
   "dependencies": {
+    "@supabase/supabase-js": "^2.50.0",
     "next": "^14.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
