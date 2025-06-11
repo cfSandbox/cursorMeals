@@ -1,9 +1,33 @@
 import Link from 'next/link';
-import { getCurrentWeekDates } from '@/lib/utils';
+
+// Function to get Monday of the current week
+function getCurrentMondayDate(): string {
+  const today = new Date();
+  const currentDay = today.getDay();
+  
+  // Calculate days to subtract to get to Monday
+  // Sunday = 0, Monday = 1, Tuesday = 2, ..., Saturday = 6
+  // For Sunday (0): go back 6 days to get previous Monday
+  // For Monday (1): stay same day (0 days)
+  // For Tuesday (2): go back 1 day
+  // For Wednesday (3): go back 2 days
+  // etc.
+  const daysToSubtract = currentDay === 0 ? 6 : currentDay - 1;
+  
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - daysToSubtract);
+  monday.setHours(0, 0, 0, 0); // Reset time to start of day
+  
+  // Format as YYYY-MM-DD using local time to avoid timezone issues
+  const year = monday.getFullYear();
+  const month = String(monday.getMonth() + 1).padStart(2, '0');
+  const day = String(monday.getDate()).padStart(2, '0');
+  
+  return `${year}-${month}-${day}`;
+}
 
 export default function Home() {
-  const { start } = getCurrentWeekDates();
-  const currentWeekParam = start.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+  const currentWeekParam = getCurrentMondayDate();
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center space-y-12 px-4">
