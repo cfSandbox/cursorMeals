@@ -34,7 +34,7 @@ body {
 
 @layer components {
   .day-card {
-    @apply bg-white/95 backdrop-blur-sm rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-200/50;
+    @apply bg-white/80 backdrop-blur-sm rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-200/30;
     transform: translateY(0);
     box-shadow: 
       0 10px 25px -5px rgba(0, 0, 0, 0.1),
