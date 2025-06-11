@@ -18,24 +18,61 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
+  background: 
+    linear-gradient(
       to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgba(0, 0, 0, 0.4),
+      rgba(0, 0, 0, 0.6)
+    ),
+    url('/images/office-catering-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }
 
 @layer components {
   .day-card {
-    @apply bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200;
+    @apply bg-white/80 backdrop-blur-sm rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-200/30;
+    transform: translateY(0);
+    box-shadow: 
+      0 10px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+  
+  .day-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+      0 20px 35px -5px rgba(0, 0, 0, 0.15),
+      0 15px 20px -5px rgba(0, 0, 0, 0.08),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
   }
   
   .day-card.current-day {
     @apply ring-2 ring-primary-500 border-primary-500;
+    box-shadow: 
+      0 15px 30px -5px rgba(59, 130, 246, 0.2),
+      0 10px 15px -5px rgba(59, 130, 246, 0.1),
+      0 0 0 1px rgba(59, 130, 246, 0.2);
+  }
+  
+  .day-card.current-day:hover {
+    transform: translateY(-6px);
+    box-shadow: 
+      0 25px 40px -5px rgba(59, 130, 246, 0.25),
+      0 20px 25px -5px rgba(59, 130, 246, 0.15),
+      0 0 0 1px rgba(59, 130, 246, 0.3);
   }
   
   .meal-item {
-    @apply bg-gray-50 rounded-lg p-4 border border-gray-200 hover:border-blue-300 transition-colors duration-200;
+    @apply bg-gray-50/80 backdrop-blur-sm rounded-lg p-4 border border-gray-200/60 hover:border-blue-300 transition-all duration-200 hover:bg-white/90;
+    box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .meal-item:hover {
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
   }
 } 
