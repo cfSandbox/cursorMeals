@@ -1,0 +1,39 @@
+{
+  "name": "cursormeals",
+  "version": "1.0.0",
+  "description": "Meal schedule application for mid-size companies",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cfSandbox/cursorMeals.git"
+  },
+  "keywords": ["meal", "schedule", "nextjs", "react", "typescript"],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/cfSandbox/cursorMeals/issues"
+  },
+  "homepage": "https://github.com/cfSandbox/cursorMeals#readme",
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "autoprefixer": "^10.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0",
+    "postcss": "^8.0.0",
+    "tailwindcss": "^3.0.0",
+    "typescript": "^5.0.0"
+  }
+}
