@@ -35,7 +35,8 @@ export interface Meal {
 export interface MealSchedule {
   id: string;
   date: string;
-  meal_id: string;
+  breakfast_meal_id: string;
+  lunch_meal_id: string;
   created_at: string;
   updated_at: string;
 }
@@ -45,6 +46,7 @@ export interface MealWithVendor extends Meal {
   vendor: Vendor;
 }
 
-export interface MealScheduleWithMeal extends MealSchedule {
-  meal: MealWithVendor;
+export interface MealScheduleWithMeals extends MealSchedule {
+  breakfast_meal: MealWithVendor;
+  lunch_meal: MealWithVendor;
 } 

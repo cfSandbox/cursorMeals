@@ -41,10 +41,11 @@ Execute the SQL in `database/schema.sql` in your Supabase SQL editor to create t
 
 #### Meal Schedules Table
 - `id` (UUID, Primary Key)
-- `date` (DATE)
-- `meal_id` (UUID, Foreign Key to meals)
+- `date` (DATE, Unique)
+- `breakfast_meal_id` (UUID, Foreign Key to meals)
+- `lunch_meal_id` (UUID, Foreign Key to meals)
 - `created_at`, `updated_at` (Timestamps)
-- Unique constraint on (date, meal_id)
+- One row per date with both breakfast and lunch references
 
 ## Admin API Usage
 
@@ -60,7 +61,8 @@ This will:
 1. Normalize the date to Monday of that week
 2. Create vendors if they don't exist
 3. Create meals if they don't exist
-4. Create meal schedules for Monday-Friday of that week
+4. Create or update meal schedules for Monday-Friday (one row per date)
+5. Update existing schedules if they already exist
 
 ### Row Level Security
 

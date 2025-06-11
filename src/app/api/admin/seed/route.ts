@@ -112,13 +112,12 @@ async function getOrCreateMeal(vendorId: string, description: string, mealType: 
   return newMeal;
 }
 
-async function createMealSchedule(date: string, mealId: string) {
+async function createOrUpdateMealSchedule(date: string, breakfastMealId: string, lunchMealId: string) {
   // Check if schedule already exists
   const { data: existingSchedule, error: selectError } = await supabaseAdmin
     .from('meal_schedules')
     .select('id')
     .eq('date', date)
-    .eq('meal_id', mealId)
     .single();
 
   if (selectError && selectError.code !== 'PGRST116') {
@@ -126,7 +125,22 @@ async function createMealSchedule(date: string, mealId: string) {
   }
 
   if (existingSchedule) {
-    return existingSchedule;
+    // Update existing schedule
+    const { data: updatedSchedule, error: updateError } = await supabaseAdmin
+      .from('meal_schedules')
+      .update({
+        breakfast_meal_id: breakfastMealId,
+        lunch_meal_id: lunchMealId
+      })
+      .eq('id', existingSchedule.id)
+      .select('id')
+      .single();
+
+    if (updateError) {
+      throw new Error(`Error updating meal schedule: ${updateError.message}`);
+    }
+
+    return updatedSchedule;
   }
 
   // Create new schedule
@@ -134,7 +148,8 @@ async function createMealSchedule(date: string, mealId: string) {
     .from('meal_schedules')
     .insert({
       date,
-      meal_id: mealId
+      breakfast_meal_id: breakfastMealId,
+      lunch_meal_id: lunchMealId
     })
     .select('id')
     .single();
@@ -190,7 +205,6 @@ export async function POST(request: NextRequest) {
       
       const breakfastVendor = await getOrCreateVendor(breakfastVendorName);
       const breakfastMeal = await getOrCreateMeal(breakfastVendor.id, breakfastDescription, 'breakfast');
-      const breakfastSchedule = await createMealSchedule(dateStr, breakfastMeal.id);
 
       // Create lunch
       const lunchVendorName = getRandomItem(mockVendors);
@@ -198,20 +212,23 @@ export async function POST(request: NextRequest) {
       
       const lunchVendor = await getOrCreateVendor(lunchVendorName);
       const lunchMeal = await getOrCreateMeal(lunchVendor.id, lunchDescription, 'lunch');
-      const lunchSchedule = await createMealSchedule(dateStr, lunchMeal.id);
+
+      // Create or update the daily schedule (single row)
+      const daySchedule = await createOrUpdateMealSchedule(dateStr, breakfastMeal.id, lunchMeal.id);
 
       createdSchedules.push({
         date: dateStr,
         breakfast: {
           vendor: breakfastVendor.name,
           description: breakfastDescription,
-          scheduleId: breakfastSchedule.id
+          mealId: breakfastMeal.id
         },
         lunch: {
           vendor: lunchVendor.name,
           description: lunchDescription,
-          scheduleId: lunchSchedule.id
-        }
+          mealId: lunchMeal.id
+        },
+        scheduleId: daySchedule.id
       });
     }
 

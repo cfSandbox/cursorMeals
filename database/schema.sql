@@ -17,21 +17,21 @@ CREATE TABLE IF NOT EXISTS meals (
   UNIQUE(vendor_id, description, meal_type)
 );
 
--- Create meal_schedules table
+-- Create meal_schedules table (one row per date)
 CREATE TABLE IF NOT EXISTS meal_schedules (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  date DATE NOT NULL,
-  meal_id UUID NOT NULL REFERENCES meals(id) ON DELETE CASCADE,
+  date DATE NOT NULL UNIQUE,
+  breakfast_meal_id UUID NOT NULL REFERENCES meals(id) ON DELETE CASCADE,
+  lunch_meal_id UUID NOT NULL REFERENCES meals(id) ON DELETE CASCADE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  UNIQUE(date, meal_id)
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_meals_vendor_id ON meals(vendor_id);
 CREATE INDEX IF NOT EXISTS idx_meals_type ON meals(meal_type);
-CREATE INDEX IF NOT EXISTS idx_meal_schedules_date ON meal_schedules(date);
-CREATE INDEX IF NOT EXISTS idx_meal_schedules_meal_id ON meal_schedules(meal_id);
+CREATE INDEX IF NOT EXISTS idx_meal_schedules_breakfast ON meal_schedules(breakfast_meal_id);
+CREATE INDEX IF NOT EXISTS idx_meal_schedules_lunch ON meal_schedules(lunch_meal_id);
 
 -- Create updated_at trigger function
 CREATE OR REPLACE FUNCTION update_updated_at_column()
